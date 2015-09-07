@@ -5,5 +5,5 @@ package com.littleh.math;
  */
 public interface MathOp {
     public double run(double a, double b);
-    
+
 }
