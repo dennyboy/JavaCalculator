@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Operations adds a series of mathematical operations <br>
  * to the mathOps HashMap.  The class utilizes Lambda <br>
- * expressions and requires Java 8 to run.
+ * expressions and requires Java 8+ to run.
  *
  * @author Denny
  * @since 9/7/2015
@@ -27,11 +27,20 @@ public class Operations {
                                      r=a/b;}
                                     return r;});
 
+      mathOps.put("square", (UniMathOp) (a)-> (a*a));
+      mathOps.put("cube", (UniMathOp) (a) -> (a*a*a));
 
     }
 
-    public static void main(String[] args){
 
+
+    public double run(String opName, double a){
+        UniMathOp uniMathOp = (UniMathOp) mathOps.get(opName);
+        return uniMathOp.run(a);
+    }
+    public double run(String opName, double a, double b){
+        BinMathOp binMathOp = (BinMathOp) mathOps.get(opName);
+        return binMathOp.run(a,b);
     }
 
 }
