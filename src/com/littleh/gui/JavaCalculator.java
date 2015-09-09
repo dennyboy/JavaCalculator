@@ -22,7 +22,7 @@ public class JavaCalculator extends JFrame{
     double b;
     double c;
     Operations operations = new Operations();
-    boolean bin;
+    Boolean bin = null;
 
     public static void main(String[] args){
         JavaCalculator javaCalculator = new JavaCalculator();
@@ -76,8 +76,6 @@ public class JavaCalculator extends JFrame{
         };
 
 
-
-
         JButton jButton9 = quickJButton("9", 2, 1, 1, 1, buttonClickedListener);
         JButton jButton8 = quickJButton("8", 1, 1, 1, 1, buttonClickedListener);
         JButton jButton7 = quickJButton("7", 0, 1, 1, 1, buttonClickedListener);
@@ -88,21 +86,23 @@ public class JavaCalculator extends JFrame{
         JButton jButton2 = quickJButton("2", 1, 3, 1, 1, buttonClickedListener);
         JButton jButton1 = quickJButton("1", 0, 3, 1, 1, buttonClickedListener);
         JButton jButton0 = quickJButton("0", 1, 4, 1, 1, buttonClickedListener);
+        JButton jButtonAdd = quickJButton("+",2,4,1,1,getMathOpListener("add",true));
+        JButton jButtonSubtract = quickJButton("-",2,5,1,1,getMathOpListener("subtract",true));
+        JButton jButtonMultiply = quickJButton("*",1,5,1,1,getMathOpListener("multiply",true));
+        JButton jButtonDivide = quickJButton("/",1,6,1,1,getMathOpListener("divide",true));
+        JButton jButtonSquare = quickJButton("^2",0,6,1,1,getMathOpListener("square",false));
+        JButton jButtonCube = quickJButton("^3",0,7,1,1,getMathOpListener("cube",false));
+        JButton jButtonMod = quickJButton("mod", 1,7,1,1, getMathOpListener(("mod"),true));
+
         JButton jButtonClear = new JButton("Clear");
         JButton jButtonDecimal = new JButton(".");
-
-        JButton jButtonAdd = new JButton("+");
-        JButton jButtonMinus = new JButton("-");
         JButton jButtonEquals = new JButton("=");
 
 
         jPanel.add(jButtonClear,quickGridBagConstraints(0, 5, 1, 1));
         jPanel.add(jButtonDecimal,quickGridBagConstraints(0,4,1,1));
-        jPanel.add(jButtonAdd,quickGridBagConstraints(2,4,1,1));
-        jPanel.add(jButtonMinus, quickGridBagConstraints(2,5,1,1));
         jPanel.add(jButtonEquals, quickGridBagConstraints(2,6,1,1));
         matchButtonSizes();
-
 
 
 
@@ -110,7 +110,7 @@ public class JavaCalculator extends JFrame{
         jButtonClear.addActionListener(new MouseClickedListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                displayBox.setText("");
+                clearDisplay();
             }
         });
 
@@ -122,26 +122,6 @@ public class JavaCalculator extends JFrame{
                 if(display.indexOf(".") == -1){
                     displayBox.setText(display + ".");
                 }
-            }
-        });
-
-        jButtonAdd.addActionListener(new MouseClickedListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                operation = "add";
-                bin = true;
-                a = Double.valueOf(displayBox.getText());
-                clearDisplay();
-            }
-        });
-
-        jButtonMinus.addActionListener(new MouseClickedListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                operation = "minus";
-                bin = true;
-                a = Double.valueOf(displayBox.getText());
-                clearDisplay();
             }
         });
 
@@ -162,14 +142,30 @@ public class JavaCalculator extends JFrame{
                     a=Double.NaN;
                     b=Double.NaN;
                     c=Double.NaN;
+                    bin=null;
                 }
             }
         });
 
-
     }
 
+    private MouseClickedListener getMathOpListener(String op, Boolean isBin){
+        MouseClickedListener mouseClickedListener;
+        final String o = op;
+        final Boolean aBoolean = isBin;
+        mouseClickedListener = new MouseClickedListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
 
+                operation = o;
+                bin = aBoolean;
+                a = Double.valueOf(displayBox.getText());
+                clearDisplay();
+            }
+        };
+
+       return mouseClickedListener;
+    }
 
     private void clearDisplay(){
         displayBox.setText("");
@@ -181,7 +177,6 @@ public class JavaCalculator extends JFrame{
                                  int gridHeight, MouseClickedListener mouseClickedListener){
 
         JButton jButton = new JButton(caption);
-
         jButton.addActionListener(mouseClickedListener);
         jPanel.add(jButton, quickGridBagConstraints(x,y,gridWidth,gridHeight));
         return jButton;

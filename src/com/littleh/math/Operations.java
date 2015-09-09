@@ -22,10 +22,12 @@ public class Operations {
       mathOps.put("subtract", (BinMathOp)(a,b)->a-b);
       mathOps.put("multiply", (BinMathOp) (a,b)->a*b);
       mathOps.put("divide", (BinMathOp) (a,b)->{
-                                    double r=0;
+                                    double r=Double.NaN;
                                     if(b!=0){
                                      r=a/b;}
                                     return r;});
+      mathOps.put("mod", (BinMathOp) (a,b) -> a%b);
+
 
       mathOps.put("square", (UniMathOp) (a)-> (a*a));
       mathOps.put("cube", (UniMathOp) (a) -> (a*a*a));
