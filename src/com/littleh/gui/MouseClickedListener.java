@@ -7,7 +7,8 @@ import java.beans.PropertyChangeListener;
 
 
 /**
- * Created by Dennis on 9/7/2015.
+ * Class so I can ignore the other methods of ActionListener that <br>
+ * need to be overridden
  */
 abstract public class MouseClickedListener implements ActionListener {
 
