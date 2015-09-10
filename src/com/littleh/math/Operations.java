@@ -12,36 +12,45 @@ import java.util.HashMap;
  */
 public class Operations {
 
-    HashMap<String, Object> mathOps;
-
-
+    HashMap<MathOpEnum, Object> mathOps;
 
     public Operations(){
-      mathOps = new HashMap<String,Object>();
-      mathOps.put("add", (BinMathOp) (a, b)->a+b);
-      mathOps.put("subtract", (BinMathOp)(a,b)->a-b);
-      mathOps.put("multiply", (BinMathOp) (a,b)->a*b);
-      mathOps.put("divide", (BinMathOp) (a,b)->{
+      mathOps = new HashMap<MathOpEnum,Object>();
+      mathOps.put(MathOpEnum.ADD, (BinMathOp) (a, b)->a+b);
+      mathOps.put(MathOpEnum.SUBTRACT, (BinMathOp)(a,b)->a-b);
+      mathOps.put(MathOpEnum.MULTIPLY, (BinMathOp) (a,b)->a*b);
+      mathOps.put(MathOpEnum.DIVIDE, (BinMathOp) (a,b)->{
                                     double r=Double.NaN;
                                     if(b!=0){
                                      r=a/b;}
                                     return r;});
-      mathOps.put("mod", (BinMathOp) (a,b) -> a%b);
+      mathOps.put(MathOpEnum.MOD, (BinMathOp) (a,b) -> a%b);
 
 
-      mathOps.put("square", (UniMathOp) (a)-> (a*a));
-      mathOps.put("cube", (UniMathOp) (a) -> (a*a*a));
+      mathOps.put(MathOpEnum.SQUARE, (UniMathOp) (a)-> (a*a));
+      mathOps.put(MathOpEnum.CUBE, (UniMathOp) (a) -> (a*a*a));
 
     }
 
 
 
-    public double run(String opName, double a){
-        UniMathOp uniMathOp = (UniMathOp) mathOps.get(opName);
+    public double run(MathOpEnum opName, double a){
+        UniMathOp uniMathOp = null;
+        try {
+            uniMathOp = (UniMathOp) mathOps.get(opName);
+        }catch(Exception e){
+
+        }
         return uniMathOp.run(a);
     }
-    public double run(String opName, double a, double b){
-        BinMathOp binMathOp = (BinMathOp) mathOps.get(opName);
+    public double run(MathOpEnum opName, double a, double b){
+        BinMathOp binMathOp = null;
+        try {
+             binMathOp = (BinMathOp) mathOps.get(opName);
+        }catch (Exception e){
+
+        }
+
         return binMathOp.run(a,b);
     }
 

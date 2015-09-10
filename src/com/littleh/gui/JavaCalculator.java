@@ -1,5 +1,6 @@
 package com.littleh.gui;
 
+import com.littleh.math.MathOpEnum;
 import com.littleh.math.Operations;
 
 import javax.swing.*;
@@ -8,8 +9,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.font.TextAttribute;
-import java.text.AttributedString;
+
 
 
 /**
@@ -17,12 +17,12 @@ import java.text.AttributedString;
  */
 public class JavaCalculator extends JFrame {
 
-    JTextPane displayBox;
-    JPanel jPanel;
-    String operation;
-    double a;
-    double b;
-    double c;
+    private JTextPane displayBox;
+    private JPanel jPanel;
+    private MathOpEnum operation;
+    private double a;
+    private double b;
+    private double c;
     Operations operations = new Operations();
     Boolean bin = null;
 
@@ -34,7 +34,6 @@ public class JavaCalculator extends JFrame {
     public JavaCalculator() {
         setFrame();
         setButtons();
-
     }
 
 
@@ -70,30 +69,26 @@ public class JavaCalculator extends JFrame {
 
 
         MouseClickedListener numberListener = getNumberListener();
-
-
-        JButton jButton9 = quickJButton("9", 2, 1, 1, 1, numberListener);
-        JButton jButton8 = quickJButton("8", 1, 1, 1, 1, numberListener);
-        JButton jButton7 = quickJButton("7", 0, 1, 1, 1, numberListener);
-        JButton jButton6 = quickJButton("6", 2, 2, 1, 1, numberListener);
-        JButton jButton5 = quickJButton("5", 1, 2, 1, 1, numberListener);
-        JButton jButton4 = quickJButton("4", 0, 2, 1, 1, numberListener);
-        JButton jButton3 = quickJButton("3", 2, 3, 1, 1, numberListener);
-        JButton jButton2 = quickJButton("2", 1, 3, 1, 1, numberListener);
-        JButton jButton1 = quickJButton("1", 0, 3, 1, 1, numberListener);
-        JButton jButton0 = quickJButton("0", 1, 4, 1, 1, numberListener);
-        JButton jButtonClear = quickJButton("Clear",0,5,1,1, getClearListener());
-        JButton jButtonDecimal = quickJButton(".",0,4,1,1, getDecimalListener());
-        JButton jButtonEquals = quickJButton("=",2,6,1,1,getEqualsListener());
-        JButton jButtonAdd = quickJButton("+", 2, 4, 1, 1, getMathOpListener("add", true));
-        JButton jButtonSubtract = quickJButton("-", 2, 5, 1, 1, getMathOpListener("subtract", true));
-        JButton jButtonMultiply = quickJButton("*", 1, 5, 1, 1, getMathOpListener("multiply", true));
-        JButton jButtonDivide = quickJButton("/", 1, 6, 1, 1, getMathOpListener("divide", true));
-
-        JButton jButtonSquare = quickJButton("<html>x<sup>2</sup></html>", 0, 6, 1, 1, getMathOpListener("square", false));
-
-        JButton jButtonCube = quickJButton("<html>x<sup>3</sup></html>", 0, 7, 1, 1, getMathOpListener("cube", false));
-        JButton jButtonMod = quickJButton("mod", 1, 7, 1, 1, getMathOpListener(("mod"), true));
+        quickJButton("9", 2, 1, 1, 1, numberListener);
+        quickJButton("8", 1, 1, 1, 1, numberListener);
+        quickJButton("7", 0, 1, 1, 1, numberListener);
+        quickJButton("6", 2, 2, 1, 1, numberListener);
+        quickJButton("5", 1, 2, 1, 1, numberListener);
+        quickJButton("4", 0, 2, 1, 1, numberListener);
+        quickJButton("3", 2, 3, 1, 1, numberListener);
+        quickJButton("2", 1, 3, 1, 1, numberListener);
+        quickJButton("1", 0, 3, 1, 1, numberListener);
+        quickJButton("0", 1, 4, 1, 1, numberListener);
+        quickJButton("Clear",0,5,1,1, getClearListener());
+        quickJButton(".",0,4,1,1, getDecimalListener());
+        quickJButton("=",2,6,1,1,getEqualsListener());
+        quickJButton("+", 2, 4, 1, 1, getMathOpListener(MathOpEnum.ADD, true));
+        quickJButton("-", 2, 5, 1, 1, getMathOpListener(MathOpEnum.SUBTRACT, true));
+        quickJButton("*", 1, 5, 1, 1, getMathOpListener(MathOpEnum.MULTIPLY, true));
+        quickJButton("/", 1, 6, 1, 1, getMathOpListener(MathOpEnum.DIVIDE, true));
+        quickJButton("<html>x<sup>2</sup></html>", 0, 6, 1, 1, getMathOpListener(MathOpEnum.SQUARE, false));
+        quickJButton("<html>x<sup>3</sup></html>", 0, 7, 1, 1, getMathOpListener(MathOpEnum.CUBE, false));
+        quickJButton("mod", 1, 7, 1, 1, getMathOpListener(MathOpEnum.MOD, true));
 
         matchButtonSizes();
         this.revalidate();
@@ -219,30 +214,35 @@ public class JavaCalculator extends JFrame {
         MouseClickedListener mouseClickedListener= new MouseClickedListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                try{
                 if (!Double.isNaN(a)) {
                     if (bin) {
+
                         b = Double.valueOf(displayBox.getText());
                         c = operations.run(operation, a, b);
-
                     } else {
                         c = operations.run(operation, a);
                     }
-                    displayBox.setText(Double.toString(c));
+
+
+                    if (!Double.isNaN(c)) {
+                        displayBox.setText(Double.toString(c));
+                    } else {
+                        displayBox.setText("#Err#");
+                    }
+                }}catch(Exception e){displayBox.setText("#Err#");}
                     a = Double.NaN;
                     b = Double.NaN;
                     c = Double.NaN;
                     bin = null;
                 }
-            }
-        };
+            };
+            return mouseClickedListener;
+        }
 
-        return mouseClickedListener;
-
-    }
-
-    private MouseClickedListener getMathOpListener(String op, Boolean isBin) {
+    private MouseClickedListener getMathOpListener(MathOpEnum op, Boolean isBin) {
         MouseClickedListener mouseClickedListener;
-        final String o = op;
+        final MathOpEnum o = op;
         final Boolean aBoolean = isBin;
         mouseClickedListener = new MouseClickedListener() {@Override
                                                            public void actionPerformed(ActionEvent actionEvent) {

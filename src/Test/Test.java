@@ -1,5 +1,6 @@
 package Test;
 
+import com.littleh.math.MathOpEnum;
 import com.littleh.math.Operations;
 
 /**
@@ -16,9 +17,9 @@ public class Test {
         int a = 4;
         int b = 6;
         Operations operations = new Operations();
-        System.out.println(operations.run("add", a, b));
-        System.out.println(operations.run("subtract",a,b));
-        System.out.println(operations.run("square",a));
+        System.out.println(operations.run(MathOpEnum.ADD, a, b));
+        System.out.println(operations.run(MathOpEnum.SUBTRACT,a,b));
+        System.out.println(operations.run(MathOpEnum.SQUARE,a));
 
 
     }
