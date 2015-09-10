@@ -25,8 +25,6 @@ public class Operations {
                                      r=a/b;}
                                     return r;});
       mathOps.put(MathOpEnum.MOD, (BinMathOp) (a,b) -> a%b);
-
-
       mathOps.put(MathOpEnum.SQUARE, (UniMathOp) (a)-> (a*a));
       mathOps.put(MathOpEnum.CUBE, (UniMathOp) (a) -> (a*a*a));
 
