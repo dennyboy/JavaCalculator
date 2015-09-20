@@ -1,7 +1,7 @@
 package com.littleh.math;
 
 /**
- * Created by Dennis on 2015-09-07.
+ * Interface for operations requiring two variables
  */
 public interface BinMathOp {
     public double run(double a, double b);

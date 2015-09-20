@@ -1,7 +1,7 @@
 package com.littleh.math;
 
 /**
- * Created by Dennis on 9/7/2015.
+ * Interface for operations requiring only one variable
  */
 public interface UniMathOp {
     public double run(double a);

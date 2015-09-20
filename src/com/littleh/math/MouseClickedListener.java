@@ -1,4 +1,4 @@
-package com.littleh.gui;
+package com.littleh.math;
 
 
 import java.awt.event.ActionEvent;

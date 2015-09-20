@@ -1,7 +1,4 @@
-package com.littleh.gui;
-
-import com.littleh.math.MathOpEnum;
-import com.littleh.math.Operations;
+package com.littleh.math;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -58,6 +55,7 @@ public class JavaCalculator extends JFrame {
         SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(simpleAttributeSet, StyleConstants.ALIGN_RIGHT);
         styledDocument.setParagraphAttributes(0, styledDocument.getLength(), simpleAttributeSet, false);
+        displayBox.setEditable(false);
         jPanel.add(displayBox, quickGridBagConstraints(0, 0, 4, 1));
 
 
@@ -231,11 +229,12 @@ public class JavaCalculator extends JFrame {
                         displayBox.setText("#Err#");
                     }
                 }}catch(Exception e){displayBox.setText("#Err#");}
+                finally{
                     a = Double.NaN;
                     b = Double.NaN;
                     c = Double.NaN;
                     bin = null;
-                }
+                }}
             };
             return mouseClickedListener;
         }
@@ -246,11 +245,14 @@ public class JavaCalculator extends JFrame {
         final Boolean aBoolean = isBin;
         mouseClickedListener = new MouseClickedListener() {@Override
                                                            public void actionPerformed(ActionEvent actionEvent) {
-
+        try{
             operation = o;
             bin = aBoolean;
             a = Double.valueOf(displayBox.getText());
-            clearDisplay();
+            clearDisplay();}
+        catch(Exception e){
+            displayBox.setText("#Err#");
+        }
         }
         };
 

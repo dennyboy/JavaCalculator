@@ -1,7 +1,7 @@
 package com.littleh.math;
 
 /**
- * Created by Dennis on 9/10/2015.
+ * Enumeration of all operations available
  */
 public enum MathOpEnum {
     ADD,
